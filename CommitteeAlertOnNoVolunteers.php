@@ -13,6 +13,7 @@ The script is designed to be run by cron daily at 013:00
     </head>
     <body>
          <?php
+        require_once '../contxt/madonapps.inc';                // sets environment Variables
         require_once '../common/phpmailer/class.phpmailer.php';
         require_once '../common/phpmailer/class.smtp.php';
         
