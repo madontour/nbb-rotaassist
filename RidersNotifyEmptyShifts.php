@@ -26,7 +26,15 @@ and open the template in the editor.
   --------------------------------------------------------------------------------------
 */
         // get midnight today and midnight tomorrow as seconds  
-        $ReportType="Riders";
+        
+       
+        if ($_GET["type"]==="Riders"):
+            $ReportType="Riders";
+        elseif ($_GET["type"]==="Drivers"):
+            $ReportType = "Drivers";
+        else:
+            echo "Report type" . $_GET["type"] ." not allowed";
+        endif;
         $daystoreport = REPORTDAYS;
         $ShiftCount=0;
         unset($LineOfText);
@@ -38,10 +46,14 @@ and open the template in the editor.
         $lag = 6 - $dow;
         $TodaySecs=mktime(0, 0, 0, $mo, $da, $yr); 
         $StartSecs=mktime(0, 0, 0, $mo, $da+$lag, $yr);
-        $msgtxt = $msgtxt   . "<strong>NBB Rota Report </strong><br><br> " 
-                                ." Available Shifts report for $ReportType: starting "
+        $LineOfText[]="Hello,<br><br>";
+        $LineOfText[]="There are shifts available for $ReportType this week. <br>";
+        $LineOfText[]="Please help if you can. <br><br>";  
+        $LineOfText[]="Thanks. <br><br><hr>";
+        $msgtxt = $msgtxt   . "<strong>NBB Rota Report </strong>" 
+                                ." Available Shifts for $ReportType: Starting "
                                 . date("l d/m/y",$StartSecs)
-                                . "<br><hr><br><br>";
+                                . "<br><hr><br>";
         echo $msgtxt;
         $LineOfText[]=$msgtxt;
         
@@ -80,13 +92,13 @@ and open the template in the editor.
                 $availableshifts["$shiftnum"]="taken";
                 unset($availableshifts["$shiftnum"]);
                 }
-            if (count($availableshifts)>0):
-                $ShiftCount++ ;
+            if (count($availableshifts)>0):               
                 echo "<strong>" .date("l jS-M-Y",$StartSecs) ."</strong><br>";
                 $LineOfText[]="<strong>" .date("l jS-M-Y",$StartSecs) ."</strong><br>";
                 foreach($availableshifts as  $FreeShiftName){
                     echo " - ". $FreeShiftName . "<br>";
                     $LineOfText[]=" - ". $FreeShiftName . "<br>";
+                    $ShiftCount++ ;
                 }
                 echo "<br>";
                 $LineOfText[]="<br>";
@@ -94,6 +106,8 @@ and open the template in the editor.
            
 // next day in loop
         }
+        $LineOfText[] = "<br><hr><br> Message generated automatically via NBB ".
+                         "OLRS at ". date("l d M y");
         
 // Message complete - held in $LineOfText()
 // Now prepare and send email.
@@ -128,7 +142,8 @@ and open the template in the editor.
             }
         endif;  
  
-        $mail->Subject = MAILSUBJECT ;           // Add subject
+        $mail->Subject = MAILSUBJECT . " " . $ReportType .": ".
+                $ShiftCount . " Shifts available this week";    
         
         $msgtxt="";
         foreach ($LineOfText as $LOT){
