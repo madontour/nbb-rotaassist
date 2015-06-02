@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+NBB Notify members of empty shifts routinely
+expects ?type=Riders or Drivers
 -->
 <html>
     <head>
@@ -34,6 +33,7 @@ and open the template in the editor.
             $ReportType = "Drivers";
         else:
             echo "Report type" . $_GET["type"] ." not allowed";
+            exit;
         endif;
         $daystoreport = REPORTDAYS;
         $ShiftCount=0;
