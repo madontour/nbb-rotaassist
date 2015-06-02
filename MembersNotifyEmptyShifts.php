@@ -18,7 +18,7 @@ expects ?type=Riders or Drivers
         require_once '../common/mrbs/mrbs_functions.inc';      // define useful functions
         require_once '../contxt/mrbs_dbconnect.inc';           // set dbconnect strings
 
-        require_once './RidersNotifyEmptyShifts.ini';          // default params & constants
+        require_once './MembersNotifyEmptyShifts.ini';          // default params & constants
 /*
   -------------------------------------------------------------------------------------        
          Real code starts here
