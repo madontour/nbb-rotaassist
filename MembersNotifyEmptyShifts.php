@@ -138,7 +138,7 @@ expects ?type=Riders or Drivers
         $blindsxs = GenerateEmailRecipients(substr($ReportType,0,1));
         if (isset($blindsxs)) :
             foreach($blindsxs as $val) {
-                #$mail->addBCC($val);            // Add a recipient BCC
+                $mail->addBCC($val);            // Add a recipient BCC
             }
         endif;  
  
